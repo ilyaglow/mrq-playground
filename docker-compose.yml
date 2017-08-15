@@ -19,8 +19,10 @@ services:
     build:
       context: ./manager
       dockerfile: Dockerfile
+    environment:
+      MRQ_REDIS: "redis://redis:6379"
+      MRQ_MONGODB_JOBS: "mongodb://mongo:27017/mrq"
     volumes:
-      - ./manager/mrq-config.py:/app/mrq-config.py
       - ./manager/add_task.py:/app/add_task.py
 
   dashboard:
@@ -34,10 +36,10 @@ services:
       - "5555:5555"
     volumes:
       - ./dashboard/mrq-config.py:/mrq-config.py
-    # environment:
-    #   - MRQ_REDIS "redis://redis:6379"
-    #   - MRQ_MONGODB "mongodb://mongo:27017/mrq"
-    command: mrq-dashboard --config /mrq-config.py
+    environment:
+      MRQ_REDIS: "redis://redis:6379"
+      MRQ_MONGODB_JOBS: "mongodb://mongo:27017/mrq"
+    command: mrq-dashboard
 
   mongo:
     image: mongo
