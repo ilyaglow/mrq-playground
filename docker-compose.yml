@@ -1,0 +1,46 @@
+version: '3'
+services:
+
+  worker:
+    depends_on:
+      - redis
+      - mongo
+    build:
+      context: ./worker
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/app
+      - ./worker/mrq-config.py:/app/mrq-config.py
+
+  manager:
+    depends_on:
+      - redis
+      - mongo
+    build:
+      context: ./manager
+      dockerfile: Dockerfile
+    volumes:
+      - ./manager/mrq-config.py:/app/mrq-config.py
+      - ./manager/add_task.py:/app/add_task.py
+
+  dashboard:
+    depends_on:
+      - redis
+      - mongo
+    build:
+      context: ./manager
+      dockerfile: Dockerfile
+    ports:
+      - "5555:5555"
+    volumes:
+      - ./dashboard/mrq-config.py:/mrq-config.py
+    # environment:
+    #   - MRQ_REDIS "redis://redis:6379"
+    #   - MRQ_MONGODB "mongodb://mongo:27017/mrq"
+    command: mrq-dashboard --config /mrq-config.py
+
+  mongo:
+    image: mongo
+
+  redis:
+    image: redis:alpine
