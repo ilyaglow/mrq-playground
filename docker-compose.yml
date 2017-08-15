@@ -34,8 +34,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5555:5555"
-    volumes:
-      - ./dashboard/mrq-config.py:/mrq-config.py
     environment:
       MRQ_REDIS: "redis://redis:6379"
       MRQ_MONGODB_JOBS: "mongodb://mongo:27017/mrq"
