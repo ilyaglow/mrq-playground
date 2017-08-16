@@ -1,16 +1,27 @@
 version: '3'
 services:
 
-  worker:
+  worker-alpine:
     depends_on:
       - redis
       - mongo
     build:
-      context: ./worker
+      context: ./worker-alpine
       dockerfile: Dockerfile
     volumes:
       - ./app:/app
-      - ./worker/mrq-config.py:/app/mrq-config.py
+      - ./worker-alpine/mrq-config.py:/app/mrq-config.py
+
+  worker-debian:
+    depends_on:
+      - redis
+      - mongo
+    build:
+      context: ./worker-debian
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/app
+      - ./worker-debian/mrq-config.py:/app/mrq-config.py
 
   manager:
     depends_on:

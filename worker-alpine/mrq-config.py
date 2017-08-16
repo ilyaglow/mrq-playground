@@ -53,3 +53,4 @@ ADMIN_IP = "0.0.0.0" #IP for the admin server to listen on. Use "0.0.0.0" to all
 LOCAL_IP = "" #Overwrite the local IP, to be displayed in the dashboard.
 MAX_LATENCY = 3  #Max seconds while worker may sleep waiting for a new job.Can be < 1 and a float value.
 DEQUEUE_STRATEGY = "sequential"
+PAUSED_QUEUES_REFRESH_INTERVAL = 10
